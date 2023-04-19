@@ -90,6 +90,17 @@ CREATE TABLE travels.travels_2 AS
 	USING (city));
 ```
 
+* Again, an error occured. If you go back a few lines ago I typed 'São Paulo' and 'São Luís' as values for the time_zone table, and used it as a key to join the tables. The Uber's file comes with the city names without '~' or '´', so I had to update it as well. After running the following query, I could run the previous one.
+```sql
+UPDATE travels.time_zone
+SET city = 'Sao Paulo'
+WHERE city = 'São Paulo';
+
+UPDATE travels.time_zone
+SET city = 'Sao Luis'
+WHERE city = 'São Luís';
+```
+
 * Right after that I could manipulate the columns 'request_time', 'begin_trip_time' and 'dropoff_time' to match a timestamp format, making it easier to manipulate.
 ```sql
 UPDATE travels.travels_2
@@ -114,4 +125,4 @@ UPDATE travels.travels_2
 SET dropoff_time = TO_TIMESTAMP (dropoff_time, 'YYYY-MM-DD HH24:MI:SS')::TIMESTAMP WITHOUT TIME ZONE + offset_sec * INTERVAL '1 second';
 ```
 
-* And that's all :) I'm gonna upload the sql file as well. I'm very open to hear any tips or "smarter" ways of doing this, just reach me on my social medias, I'd be more than happy to learn more :)
+* And that's all :) I'm gonna upload the sql file as well, a little bit different from what I showed here. The sql file already comes fixed, so It won't show any of the errors presented above. I'm very open to hear any tips or "smarter" ways of doing this, just reach me on my social medias, I'd be more than happy to learn more :)
