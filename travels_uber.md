@@ -81,4 +81,37 @@ ALTER COLUMN begin_trip_time TYPE VARCHAR(50),
 ALTER COLUMN dropoff_time TYPE VARCHAR(50);
 ```
 
-* One of the things that I like to do
+* One of the things that I like to do when doing projects, is to always keep a backup file of important things. So I decided to keep the 'travels' table as a backup file and worked on a copy of it. Well, looking from a storage consumption perspective, this could be considered a not good practice. But again, I allowed myself to do this, as It is a small database.
+To create this copy, I joined the two tables 'travels' and 'time_zone' so I could have an only table with all the necessary columns, making it easier to work on.
+```sql
+CREATE TABLE travels.travels_2 AS
+	(SELECT * FROM travels.travels
+	LEFT OUTER JOIN travels.time_zone
+	USING (city));
+```
+
+* Right after that I could manipulate the columns 'request_time', 'begin_trip_time' and 'dropoff_time' to match a timestamp format, making it easier to manipulate.
+```sql
+UPDATE travels.travels_2
+SET request_time = SPLIT_PART (request_time, ' +', 1);
+
+UPDATE travels.travels_2
+SET begin_trip_time = SPLIT_PART (begin_trip_time, ' +', 1);
+
+UPDATE travels.travels_2
+SET dropoff_time = SPLIT_PART (dropoff_time, ' +', 1);
+```
+
+* To finish, I updated these same columns, adding the respective time zone offset.
+```sql
+UPDATE travels.travels_2
+SET request_time = (TO_TIMESTAMP (request_time, 'YYYY-MM-DD HH24:MI:SS')::TIMESTAMP WITHOUT TIME ZONE) + offset_sec * INTERVAL '1 second';
+
+UPDATE travels.travels_2
+SET begin_trip_time = TO_TIMESTAMP (begin_trip_time, 'YYYY-MM-DD HH24:MI:SS')::TIMESTAMP WITHOUT TIME ZONE + offset_sec * INTERVAL '1 second';
+
+UPDATE travels.travels_2
+SET dropoff_time = TO_TIMESTAMP (dropoff_time, 'YYYY-MM-DD HH24:MI:SS')::TIMESTAMP WITHOUT TIME ZONE + offset_sec * INTERVAL '1 second';
+```
+
+* And that's all :) I'm gonna upload the sql file as well. I'm very open to hear any tips or "smarter" ways of doing this, just reach me on my social medias, I'd be more than happy to learn more :)
