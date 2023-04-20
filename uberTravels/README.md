@@ -102,6 +102,7 @@ WHERE city = 'São Luís';
 ```
 
 * Right after that, I could manipulate the columns 'request_time', 'begin_trip_time' and 'dropoff_time' to match a timestamp format, making it easier to manipulate.
+Another important thing to do was to adjust the 'distance_km' column from miles to km.
 ```sql
 UPDATE travels.travels_2
 SET request_time = SPLIT_PART (request_time, ' +', 1);
@@ -111,6 +112,9 @@ SET begin_trip_time = SPLIT_PART (begin_trip_time, ' +', 1);
 
 UPDATE travels.travels_2
 SET dropoff_time = SPLIT_PART (dropoff_time, ' +', 1);
+
+UPDATE travels.travels_2
+SET distance_km = (distance_km * 1.60934);
 ```
 
 * To finish, I updated the same columns, adding the respective time zone offset.

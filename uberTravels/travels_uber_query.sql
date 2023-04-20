@@ -54,6 +54,9 @@ UPDATE travels.travels_2
 SET dropoff_time = SPLIT_PART (dropoff_time, ' +', 1);
 
 UPDATE travels.travels_2
+SET distance_km = (distance_km * 1.60934);
+
+UPDATE travels.travels_2
 SET request_time = (TO_TIMESTAMP (request_time, 'YYYY-MM-DD HH24:MI:SS')::TIMESTAMP WITHOUT TIME ZONE) + offset_sec * INTERVAL '1 second';
 
 UPDATE travels.travels_2
