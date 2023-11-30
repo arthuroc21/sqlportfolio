@@ -2,7 +2,7 @@
 
 ## Intro
 
-This is a project I had to develop as part of my IT course assessment. The scenario was based on a hypotetical real estate firm which would like to manage their sales office, properties, employees, and property owners in several states of Australia. 
+This is a project I had to develop as part of my IT course assessment. The scenario was based on a hypothetical real estate firm that would like to manage its sales office, properties, employees, and property owners in several states of Australia.
 
 ## Preparation to create the relational database
 
